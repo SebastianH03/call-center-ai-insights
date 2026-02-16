@@ -1,0 +1,2351 @@
+{
+  "name": "Tesis Avanzada",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1880,
+        440
+      ],
+      "id": "4da03151-1fbf-48ba-a581-414a407a1082",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "fileSelector": "/data/Llamada/urls_llamadas.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        -1700,
+        440
+      ],
+      "id": "d79ba72c-958d-4751-a9ef-ee763c12d39d",
+      "name": "Leer Llamadas Reales"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1200,
+        300
+      ],
+      "id": "271d0978-b80c-406f-b59b-3c7569c49d96",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lNApAXoLpemlHJWo",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Transcripción').item.json.text}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1340,
+        340
+      ],
+      "id": "abcc6d08-b816-41a5-9f7e-c3b1ccd29a85",
+      "name": "Window Buffer Memory1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"tematicas_detectadas\": [\"Becas\", \"Costos\", \"Carreras\"],\n  \"intencion_prospecto\": \"Sí\",\n  \"palabras_clave\": [\"becas completas\", \"ingeniería\", \"valor de la matrícula\"],\n  \"preguntas_realizadas\": [\n    \"¿No hay forma de pagar sin que llegue el código?\",\n    \"¿Quiere que le comparta la captura desde cuando voy a dar el clic o cuando...?\",\n    \"¿Cuando usted está ingresando el documento le está poniendo cédula, cierto?\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1460,
+        320
+      ],
+      "id": "adf1748f-8114-48fc-90f1-1db7a959f437",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        860,
+        440
+      ],
+      "id": "057aa3a1-d5ec-40d0-bdd0-0a17233384b8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lNApAXoLpemlHJWo",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Transcripción').item.json.text}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        980,
+        480
+      ],
+      "id": "73202006-0235-44eb-9df4-1da3ac3cd20f",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"justificacion\": \"La llamada fue fluida y el prospecto expresó interés genuino...\",\n  \"areas_de_mejora\": \"Mejorar la claridad al explicar los pasos de admisión.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1100,
+        440
+      ],
+      "id": "66ecf232-ba90-41fe-aab4-9b1bd85f9392",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        460,
+        380
+      ],
+      "id": "84d12427-7bdf-47e0-bc49-85df4371dbea",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "lNApAXoLpemlHJWo",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Transcripción').item.json.text}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        580,
+        380
+      ],
+      "id": "54cf9c6e-272d-4799-b7d5-0566be9ac210",
+      "name": "Window Buffer Memory2"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "\n{\n  \"sentimiento_general\":   \"Neutral\",\n  \"emocion_candidato\": \"Indiferencia\",\n  \"emocion_agente\": \n  \"Claridad\",\n  \"nivel_interes_candidato\": \"Medio\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        700,
+        400
+      ],
+      "id": "456885fa-2d5b-4a70-9479-df2de7a3b728",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Objetivo\nAnalizar el sentimiento, las emociones y el nivel de interés del candidato durante una llamada con la universidad.\n\n# Instrucciones\n1. Evalúa el tono general de la conversación, prestando especial atención al estado emocional y la disposición del *prospecto*.\n2. Clasifica el sentimiento general como:\n   - \"Positivo\": el prospecto muestra entusiasmo, claridad de intención o actitud receptiva. Se expresa con motivación o confianza.\n   - \"Negativo\": el prospecto muestra indecisión, desinterés, evasión o frustración. Incluso si el tono es educado, si hay falta de compromiso emocional o verbal, se considera negativo.\n   - \"Neutral\": la conversación es informativa y sin carga emocional clara por ninguna de las partes. El prospecto se muestra simplemente receptivo pero sin emociones definidas.\n3. Identifica la emoción predominante del candidato (ej: entusiasmo, desinterés, frustración, duda, interés, ansiedad, indiferencia).\n4. Identifica la emoción predominante del agente universitario (ej: empatía, claridad, impaciencia, amabilidad, desconexión).\n5. Estima el nivel de interés general del candidato en la conversación, considerando su participación, entusiasmo, tipo de preguntas y lenguaje utilizado. Usa una de las siguientes categorías:\n   - \"Alto\": el candidato expresa intención clara de avanzar, hace preguntas clave, muestra entusiasmo.\n   - \"Medio\": el candidato se interesa parcialmente, hace preguntas generales, sugiere seguir averiguando.\n   - \"Bajo\": el candidato muestra poco o ningún interés, responde con frases cortas o evasivas.\n\n# Transcripción de la llamada:\n{{ $json.text }}\n\n# Output (JSON estricto)\n{\n  \"sentimiento_general\": \"\",\n  \"emocion_candidato\": \"\",\n  \"emocion_agente\": \"\",\n  \"nivel_interes_candidato\": \"\"\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        520,
+        200
+      ],
+      "id": "521dfa00-027a-4599-819e-a39e94dc233e",
+      "name": "Clasificador y Analizador"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Objetivo\nIdentificar las temáticas principales de la llamada y las intenciones del prospecto.\n\n# Instrucciones\n1. Analiza los temas discutidos durante la llamada.\n2. Clasifica las temáticas en categorías como: proceso de admisión, costos, becas, programas académicos, modalidad de estudio, dudas generales, motivaciones personales.\n3. Identifica si el candidato muestra intención de avanzar en el proceso de inscripción (Sí/No).\n4. Extrae palabras clave representativas (máximo 5) de la conversación.\n5.Extrae todas las preguntas que haya formulado el prospecto en la conversación (en texto literal si es posible).\n\n# Transcripción aquí:\n{{ $('Transcripción').item.json.text }}\n\n# Output (JSON estricto)\n{\n  \"tematicas_detectadas\": [\"Becas\", \"Costos\", \"Carreras\"],\n  \"intencion_prospecto\": \"Sí\",\n  \"palabras_clave\": [\"becas completas\", \"ingeniería\", \"valor de la matrícula\"],\n\"preguntas_realizadas\": [\n    \"¿Cuando es la fecha de ingreso al semestre?\",\n    \"¿Qué programas académicos están disponibles?\",\n    \"¿Cuando es la fecha de pago de matrícula?\"\n  ]\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1220,
+        140
+      ],
+      "id": "10a15ada-deda-4506-9774-7d561099b9e3",
+      "name": "Temáticas e Intenciones"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Objetivo\nJustificar el sentimiento clasificado y proponer acciones de mejora sobre la atención o proceso.\n\n# Instrucciones\n1. Justifica brevemente por qué se asignó el sentimiento general.\n2. Señala puntos fuertes o débiles de la llamada.\n3. Si hay debilidades, sugiere mejoras concretas en aspectos como:\n   - tono del agente\n   - claridad en la explicación\n   - empatía con el prospecto\n   - manejo del tiempo o dudas\n\n# Sentimiento general previamente asignado:\n{{ $json.output.sentimiento_general }}\n\n# Transcripción de la llamada:\n{{ $('Transcripción').item.json.text }}\n\n# Output (JSON estricto)\n{\n  \"justificacion\": \"La llamada fue fluida y el prospecto expresó interés genuino...\",\n  \"areas_de_mejora\": \"Mejorar la claridad al explicar los pasos de admisión.\"\n}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        880,
+        280
+      ],
+      "id": "4283458c-cae0-4561-81c0-0805904b1ca8",
+      "name": "Acciones de mejora"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1949ff22-6315-412b-8935-58716151d5f0",
+              "leftValue": "={{ $json.headers['content-length'] }}",
+              "rightValue": "144",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "5dbc905e-330d-465c-9fc8-b83792709c43",
+              "leftValue": "={{ $json.headers['content-length'] }}",
+              "rightValue": "216",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -380,
+        240
+      ],
+      "id": "2b120d56-c9d3-4c3b-b6be-59e3244c1257",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1949ff22-6315-412b-8935-58716151d5f0",
+              "leftValue": "={{ $json.viableParaAnalisis }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        320
+      ],
+      "id": "cc37c9dc-1459-4247-a862-b9cc15e17f55",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a56a9745-de28-48de-a539-17655ebff250",
+              "name": "output.sentimiento_general",
+              "value": "={{ $json['Sentimiento General'] }}",
+              "type": "string"
+            },
+            {
+              "id": "631ac706-3829-462a-a653-878988c7bc76",
+              "name": "=output.emocion_candidato",
+              "value": "={{ $json['Emoción Candidato'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f085bdbd-0477-4f0c-bdcc-010a5096660b",
+              "name": "output.emocion_agente",
+              "value": "={{ $json['Emoción Agente'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7309c3cb-329f-49e9-bce5-559d783849c4",
+              "name": "output.nivel_interes_candidato",
+              "value": "={{ $json['Nivel Interés Candidato'] }}",
+              "type": "string"
+            },
+            {
+              "id": "fc900604-4d7a-416f-95aa-6f9289d56dc2",
+              "name": "output.justificacion",
+              "value": "={{ $json['Justificación'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6b655147-4235-493a-ad3b-7de39b536a05",
+              "name": "output.areas_de_mejora",
+              "value": "={{ $json['Áreas de Mejora'] }}",
+              "type": "string"
+            },
+            {
+              "id": "16e1baac-2a97-4bf0-85b2-fc4522de38f4",
+              "name": "output.tematicas_detectadas",
+              "value": "={{ $json['Temáticas Detectadas'] }}",
+              "type": "array"
+            },
+            {
+              "id": "ff41c1d5-2852-4081-a6af-85af5ebb31eb",
+              "name": "output.intencion_prospecto",
+              "value": "={{ $json['Intención Prospecto'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6231a2c6-9313-46aa-9597-a546f4a062b4",
+              "name": "output.palabras_clave",
+              "value": "={{ $json['Palabras Clave'] }}",
+              "type": "array"
+            },
+            {
+              "id": "f163cae0-818f-447e-8630-3758958ad0e7",
+              "name": "output.preguntas_realizadas",
+              "value": "={{ $json['Preguntas Realizadas'] }}",
+              "type": "array"
+            },
+            {
+              "id": "74a4bd5d-b94e-4bae-be54-fc561c94ae3e",
+              "name": "output.id_llamada",
+              "value": "={{ $json['ID Llamada'] }}",
+              "type": "string"
+            },
+            {
+              "id": "55ae966d-ad79-4b00-b585-c3d72324a045",
+              "name": "output.url_original",
+              "value": "={{ $json['URL Original'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3268f33f-b28a-41f3-b230-0180cca579f2",
+              "name": "output.fecha_procesamiento",
+              "value": "={{ $json['Fecha Procesamiento'] }}",
+              "type": "string"
+            },
+            {
+              "id": "27429be1-a5b5-49eb-99e0-f7f772e5b944",
+              "name": "output.estado_llamada",
+              "value": "={{ $json['Estado Llamada'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        100
+      ],
+      "id": "d77eb5e8-825a-4b9c-bde5-7347d13c9993",
+      "name": "Case Error"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a56a9745-de28-48de-a539-17655ebff250",
+              "name": "output.sentimiento_general",
+              "value": "={{ $('Clasificador y Analizador').item.json.output.sentimiento_general }}",
+              "type": "string"
+            },
+            {
+              "id": "631ac706-3829-462a-a653-878988c7bc76",
+              "name": "=output.emocion_candidato",
+              "value": "={{ $('Clasificador y Analizador').item.json.output.emocion_candidato }}",
+              "type": "string"
+            },
+            {
+              "id": "f085bdbd-0477-4f0c-bdcc-010a5096660b",
+              "name": "output.emocion_agente",
+              "value": "={{ $('Clasificador y Analizador').item.json.output.emocion_agente }}",
+              "type": "string"
+            },
+            {
+              "id": "7309c3cb-329f-49e9-bce5-559d783849c4",
+              "name": "output.nivel_interes_candidato",
+              "value": "={{ $('Clasificador y Analizador').item.json.output.nivel_interes_candidato }}",
+              "type": "string"
+            },
+            {
+              "id": "fc900604-4d7a-416f-95aa-6f9289d56dc2",
+              "name": "output.justificacion",
+              "value": "={{ $('Acciones de mejora').item.json.output.justificacion }}",
+              "type": "string"
+            },
+            {
+              "id": "6b655147-4235-493a-ad3b-7de39b536a05",
+              "name": "output.areas_de_mejora",
+              "value": "={{ $('Acciones de mejora').item.json.output.areas_de_mejora }}",
+              "type": "string"
+            },
+            {
+              "id": "16e1baac-2a97-4bf0-85b2-fc4522de38f4",
+              "name": "output.tematicas_detectadas",
+              "value": "={{ $json.output.tematicas_detectadas }}",
+              "type": "array"
+            },
+            {
+              "id": "ff41c1d5-2852-4081-a6af-85af5ebb31eb",
+              "name": "output.intencion_prospecto",
+              "value": "={{ $json.output.intencion_prospecto }}",
+              "type": "string"
+            },
+            {
+              "id": "6231a2c6-9313-46aa-9597-a546f4a062b4",
+              "name": "output.palabras_clave",
+              "value": "={{ $json.output.palabras_clave }}",
+              "type": "array"
+            },
+            {
+              "id": "f163cae0-818f-447e-8630-3758958ad0e7",
+              "name": "output.preguntas_realizadas",
+              "value": "={{ $json.output.preguntas_realizadas }}",
+              "type": "array"
+            },
+            {
+              "id": "74a4bd5d-b94e-4bae-be54-fc561c94ae3e",
+              "name": "output.id_llamada",
+              "value": "={{ $('If1').item.json['ID Llamada'] }}",
+              "type": "string"
+            },
+            {
+              "id": "55ae966d-ad79-4b00-b585-c3d72324a045",
+              "name": "output.url_original",
+              "value": "={{ $('If1').item.json.url }}",
+              "type": "string"
+            },
+            {
+              "id": "3268f33f-b28a-41f3-b230-0180cca579f2",
+              "name": "output.fecha_procesamiento",
+              "value": "={{ $('If1').item.json['Fecha Procesamiento'] }}",
+              "type": "string"
+            },
+            {
+              "id": "27429be1-a5b5-49eb-99e0-f7f772e5b944",
+              "name": "output.estado_llamada",
+              "value": "={{ $('If1').item.json['Estado Llamada'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        -20
+      ],
+      "id": "cbe771fb-590e-4baf-b454-8eebd760ecf8",
+      "name": "Case valid"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a56a9745-de28-48de-a539-17655ebff250",
+              "name": "output.sentimiento_general",
+              "value": "={{ $json['Sentimiento General'] }}",
+              "type": "string"
+            },
+            {
+              "id": "631ac706-3829-462a-a653-878988c7bc76",
+              "name": "=output.emocion_candidato",
+              "value": "={{ $json['Emoción Candidato'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f085bdbd-0477-4f0c-bdcc-010a5096660b",
+              "name": "output.emocion_agente",
+              "value": "={{ $json['Emoción Agente'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7309c3cb-329f-49e9-bce5-559d783849c4",
+              "name": "output.nivel_interes_candidato",
+              "value": "={{ $json['Nivel Interés Candidato'] }}",
+              "type": "string"
+            },
+            {
+              "id": "fc900604-4d7a-416f-95aa-6f9289d56dc2",
+              "name": "output.justificacion",
+              "value": "={{ $json['Justificación'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6b655147-4235-493a-ad3b-7de39b536a05",
+              "name": "output.areas_de_mejora",
+              "value": "={{ $json['Áreas de Mejora'] }}",
+              "type": "string"
+            },
+            {
+              "id": "16e1baac-2a97-4bf0-85b2-fc4522de38f4",
+              "name": "output.tematicas_detectadas",
+              "value": "={{ $json['Temáticas Detectadas'] }}",
+              "type": "array"
+            },
+            {
+              "id": "ff41c1d5-2852-4081-a6af-85af5ebb31eb",
+              "name": "output.intencion_prospecto",
+              "value": "={{ $json['Intención Prospecto'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6231a2c6-9313-46aa-9597-a546f4a062b4",
+              "name": "output.palabras_clave",
+              "value": "={{ $json['Palabras Clave'] }}",
+              "type": "array"
+            },
+            {
+              "id": "f163cae0-818f-447e-8630-3758958ad0e7",
+              "name": "output.preguntas_realizadas",
+              "value": "={{ $json['Preguntas Realizadas'] }}",
+              "type": "array"
+            },
+            {
+              "id": "74a4bd5d-b94e-4bae-be54-fc561c94ae3e",
+              "name": "output.id_llamada",
+              "value": "={{ $json['ID Llamada'] }}",
+              "type": "string"
+            },
+            {
+              "id": "55ae966d-ad79-4b00-b585-c3d72324a045",
+              "name": "output.url_original",
+              "value": "={{ $json['URL Original'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3268f33f-b28a-41f3-b230-0180cca579f2",
+              "name": "output.fecha_procesamiento",
+              "value": "={{ $json['Fecha Procesamiento'] }}",
+              "type": "string"
+            },
+            {
+              "id": "27429be1-a5b5-49eb-99e0-f7f772e5b944",
+              "name": "output.estado_llamada",
+              "value": "={{ $json['Estado Llamada'] }}",
+              "type": "string"
+            },
+            {
+              "id": "35f6f5d6-7317-48db-b3aa-0cea943bc918",
+              "name": "output.branch",
+              "value": "={{ $('Verificar Umbrales').item.json.branch }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        560
+      ],
+      "id": "8a5ada8c-7586-4cc5-bfc2-92c331b7fa6d",
+      "name": "Case Invalid"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s",
+          "mode": "list",
+          "cachedResultName": "LlamadasAnalizadas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Url": "={{ $json.output.url_original }}",
+            "Fecha Procesamiento": "={{ $json.output.fecha_procesamiento }}",
+            "Estado": "={{ $json.output.estado_llamada }}",
+            "Sentimiento General": "={{ $json.output.sentimiento_general }}",
+            "Emoción Candidato": "={{ $json.output.emocion_candidato }}",
+            "Emoción Agente": "={{ $json.output.emocion_agente }}",
+            "Interés del Candidato": "={{ $json.output.nivel_interes_candidato }}",
+            "Justificación": "={{ $json.output.justificacion }}",
+            "Áreas de Mejora": "={{ $json.output.areas_de_mejora }}",
+            "Temáticas Detectadas": "={{ $json.output.tematicas_detectadas }}",
+            "Intención del Prospecto": "={{ $json.output.intencion_prospecto }}",
+            "Palabras Clave": "={{ $json.output.palabras_clave }}",
+            "Preguntas Realizadas": "={{ $json.output.preguntas_realizadas }}",
+            "Id Llamada": "={{ $('If1').item.json['ID Llamada'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id Llamada",
+              "displayName": "Id Llamada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha Procesamiento",
+              "displayName": "Fecha Procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sentimiento General",
+              "displayName": "Sentimiento General",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Candidato",
+              "displayName": "Emoción Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Agente",
+              "displayName": "Emoción Agente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Interés del Candidato",
+              "displayName": "Interés del Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Justificación",
+              "displayName": "Justificación",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Áreas de Mejora",
+              "displayName": "Áreas de Mejora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Temáticas Detectadas",
+              "displayName": "Temáticas Detectadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Intención del Prospecto",
+              "displayName": "Intención del Prospecto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Palabras Clave",
+              "displayName": "Palabras Clave",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preguntas Realizadas",
+              "displayName": "Preguntas Realizadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1680,
+        -20
+      ],
+      "id": "df3ace11-e9a8-4cd3-97f1-d01abfa07359",
+      "name": "Guardar Análisis Válido",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZKe4X0tHwZYgYiIK",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s",
+          "mode": "list",
+          "cachedResultName": "Tesis JS Completa",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id Llamada": "={{ $json.output.id_llamada }}",
+            "Url": "={{ $json.output.url_original }}",
+            "Fecha Procesamiento": "={{ $json.output.fecha_procesamiento }}",
+            "Estado": "={{ $json.output.estado_llamada }}",
+            "Sentimiento General": "={{ $json.output.sentimiento_general }}",
+            "Emoción Candidato": "={{ $json.output.emocion_candidato }}",
+            "Emoción Agente": "={{ $json.output.emocion_agente }}",
+            "Interés del Candidato": "={{ $json.output.nivel_interes_candidato }}",
+            "Justificación": "={{ $json.output.justificacion }}",
+            "Áreas de Mejora": "={{ $json.output.areas_de_mejora }}",
+            "Temáticas Detectadas": "={{ $json.output.tematicas_detectadas }}",
+            "Intención del Prospecto": "={{ $json.output.intencion_prospecto }}",
+            "Palabras Clave": "={{ $json.output.palabras_clave }}",
+            "Preguntas Realizadas": "={{ $json.output.preguntas_realizadas }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id Llamada",
+              "displayName": "Id Llamada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha Procesamiento",
+              "displayName": "Fecha Procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sentimiento General",
+              "displayName": "Sentimiento General",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Candidato",
+              "displayName": "Emoción Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Agente",
+              "displayName": "Emoción Agente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Interés del Candidato",
+              "displayName": "Interés del Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Justificación",
+              "displayName": "Justificación",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Áreas de Mejora",
+              "displayName": "Áreas de Mejora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Temáticas Detectadas",
+              "displayName": "Temáticas Detectadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Intención del Prospecto",
+              "displayName": "Intención del Prospecto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Palabras Clave",
+              "displayName": "Palabras Clave",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preguntas Realizadas",
+              "displayName": "Preguntas Realizadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        580,
+        560
+      ],
+      "id": "47291d67-b219-4067-9915-ee8c99490e95",
+      "name": "Guardar Análisis Inválido1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZKe4X0tHwZYgYiIK",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s",
+          "mode": "list",
+          "cachedResultName": "LlamadasAnalizadas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id Llamada": "={{ $json.output.id_llamada }}",
+            "Url": "={{ $json.output.url_original }}",
+            "Fecha Procesamiento": "={{ $json.output.fecha_procesamiento }}",
+            "Estado": "={{ $json.output.estado_llamada }}",
+            "Sentimiento General": "={{ $json.output.sentimiento_general }}",
+            "Emoción Candidato": "={{ $json.output.emocion_candidato }}",
+            "Emoción Agente": "={{ $json.output.emocion_agente }}",
+            "Interés del Candidato": "={{ $json.output.nivel_interes_candidato }}",
+            "Justificación": "={{ $json.output.justificacion }}",
+            "Áreas de Mejora": "={{ $json.output.areas_de_mejora }}",
+            "Temáticas Detectadas": "={{ $json.output.tematicas_detectadas }}",
+            "Intención del Prospecto": "={{ $json.output.intencion_prospecto }}",
+            "Palabras Clave": "={{ $json.output.palabras_clave }}",
+            "Preguntas Realizadas": "={{ $json.output.preguntas_realizadas }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id Llamada",
+              "displayName": "Id Llamada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha Procesamiento",
+              "displayName": "Fecha Procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sentimiento General",
+              "displayName": "Sentimiento General",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Candidato",
+              "displayName": "Emoción Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Agente",
+              "displayName": "Emoción Agente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Interés del Candidato",
+              "displayName": "Interés del Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Justificación",
+              "displayName": "Justificación",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Áreas de Mejora",
+              "displayName": "Áreas de Mejora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Temáticas Detectadas",
+              "displayName": "Temáticas Detectadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Intención del Prospecto",
+              "displayName": "Intención del Prospecto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Palabras Clave",
+              "displayName": "Palabras Clave",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preguntas Realizadas",
+              "displayName": "Preguntas Realizadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        -120
+      ],
+      "id": "1439ad4e-857f-4320-9238-e6b2094afef4",
+      "name": "Guardar Análisis con Error",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZKe4X0tHwZYgYiIK",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Código simple que SIEMPRE empieza desde 0 con cada archivo nuevo\nconst content = $('Traducir Archivo Grabaciones').first().json.data;\nconst lines = content.split('\\n').map(line => line.trim()).filter(line => line !== '');\n\n// Validar que hay URLs en el archivo\nif (lines.length === 0) {\n  console.log('Error: No hay URLs en el archivo');\n  return [];\n}\n\nlet rawContentIndex = $input.first().json.data;\nlet currentIndex = 0;\ntry {\n  const parsedArray = JSON.parse(rawContentIndex);\n  if (Array.isArray(parsedArray) && parsedArray.length > 0 && parsedArray[0].index !== undefined) {\n    currentIndex = parseInt(parsedArray[0].index);\n  }\n} catch (error) {\n  console.log('Error al parsear el contador:', error);\n}\n\nif (currentIndex >= lines.length || currentIndex < 0) {\n  currentIndex = 0;\n}\n\n// === URL ACTUAL ===\nconst currentLine = lines[currentIndex];\nlet currentUrl = '';\nlet callId = '';\n\nif (currentLine && currentLine.includes('|')) {\n  const parts = currentLine.split('|');\n  currentUrl = parts[0].trim();\n  callId = parts[1].trim();\n} else {\n  currentUrl = currentLine;\n  callId = `unknown_${currentIndex}`;\n}\n\nconst fileName = currentUrl ? currentUrl.split('/').pop().split('?')[0] : `archivo_${currentIndex}`;\n\nreturn [{\n  json: {\n    url: currentUrl,\n    fileName: fileName,\n    currentIndex: currentIndex,\n    totalUrls: lines.length,\n    progress: `${currentIndex + 1}/${lines.length}`,\n    nextIndex: (currentIndex + 1),\n    \"ID Llamada\": callId,\n    \"URL Original\": currentUrl,\n    \"Fecha Procesamiento\": new Date().toISOString(),\n    \"Estado Llamada\": \"En procesamiento...\",\n    \"Duración Estimada\": \"Calculando...\",\n    \"Cantidad Palabras\": 0,\n    \"Sentimiento General\": \"\",\n    \"Emoción Candidato\": \"\",\n    \"Emoción Agente\": \"\",\n    \"Nivel Interés Candidato\": \"\",\n    \"Justificación\": \"\",\n    \"Áreas de Mejora\": \"\",\n    \"Temáticas Detectadas\": [],\n    \"Intención Prospecto\": \"\",\n    \"Palabras Clave\": [],\n    \"Preguntas Realizadas\": [],\n    processingStartTime: new Date().toISOString(),\n    processingStatus: \"started\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        220
+      ],
+      "id": "7701bc8c-10a8-4883-8c94-c17332d06849",
+      "name": "Iterar sobre Urls"
+    },
+    {
+      "parameters": {
+        "fileSelector": "/data/Llamada/contador.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        -1340,
+        440
+      ],
+      "id": "f7263102-cefe-4164-916d-d11a2635f7fd",
+      "name": "Leer Contador Persistente"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -1160,
+        440
+      ],
+      "id": "cd417141-9f4a-4113-9a75-525ba4972db8",
+      "name": "Convertir Contador"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/data/Llamada/contador.json",
+        "dataPropertyName": "={{ $('Variable Contador').item.json.index }}",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2180,
+        40
+      ],
+      "id": "b11d3a24-3b0b-40e0-85ec-9fe2d335ecfa",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "binaryPropertyName": "={{ $json.index }}",
+        "options": {
+          "fileName": "contador"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        600,
+        0
+      ],
+      "id": "16f396aa-f5c6-4298-8523-b6f65d6c9fca",
+      "name": "Convertir Contador Binario"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/data/Llamada/contador.json",
+        "dataPropertyName": "={{ $('Variable Contador2').item.json.index }}",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        780,
+        0
+      ],
+      "id": "266709fa-30ca-41a0-85e2-0fde179d4176",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/data/Llamada/contador.json",
+        "dataPropertyName": "={{ $('Variable Contador1').item.json.index }}",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        620
+      ],
+      "id": "a6c96a67-5dae-481e-b768-04acf44c8e44",
+      "name": "Read/Write Files from Disk2"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "binaryPropertyName": "={{ $json.index }}",
+        "options": {
+          "fileName": "contador"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        980,
+        720
+      ],
+      "id": "5bfb37aa-28df-4cbf-b311-123b270ea6b8",
+      "name": "Convertir Contador Binario2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a6dc44b5-6a76-45a1-a0dc-b2670b22bfc7",
+              "name": "index",
+              "value": "={{ $('Verificar Umbrales').item.json.nextIndex }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1840,
+        140
+      ],
+      "id": "71626cd6-9176-44f2-b1e7-d65a775d5957",
+      "name": "Variable Contador"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "binaryPropertyName": "={{ $json.index }}",
+        "options": {
+          "fileName": "contador"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        2020,
+        140
+      ],
+      "id": "6d12b1ca-cb7b-4671-86ad-25b5b93fa08f",
+      "name": "Convertir Contador Binario1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a6dc44b5-6a76-45a1-a0dc-b2670b22bfc7",
+              "name": "index",
+              "value": "={{ $('Verificar Umbrales').item.json.nextIndex }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        780,
+        720
+      ],
+      "id": "6e7af5e2-f9b6-4040-bef9-d5d59872cb94",
+      "name": "Variable Contador1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a6dc44b5-6a76-45a1-a0dc-b2670b22bfc7",
+              "name": "index",
+              "value": "={{ $('Llamadas corruptas').item.json.nextIndex }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        -120
+      ],
+      "id": "64801f1a-538e-4ad6-bb5a-2ffa2dab422c",
+      "name": "Variable Contador2"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Iterar sobre Urls').item.json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -700,
+        200
+      ],
+      "id": "e3f2e68c-a080-4bb5-8bda-f4b1a2fe2f91",
+      "name": "Descargar la Grabación",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/audio/transcriptions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-4o-transcribe"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "language",
+              "value": "es"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -140,
+        320
+      ],
+      "id": "3c9f7cf9-b497-4768-bfbf-51945508e7fa",
+      "name": "Transcripción",
+      "credentials": {
+        "openAiApi": {
+          "id": "lNApAXoLpemlHJWo",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -1520,
+        440
+      ],
+      "id": "d915008e-bdd6-4313-ac38-e8cdd71639ac",
+      "name": "Traducir Archivo Grabaciones"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Nodo Code mejorado para llamadas con errores\nconst baseData = $('Iterar sobre Urls').first().json;\nconst fileSize = $('Descargar la Grabación').first().json.headers['content-length'];\n\nconst updatedData = {\n  ...baseData,\n  \"Estado Llamada\": \"Error - Archivo corrupto (144 bytes)\",\n  \"Duración Estimada\": \"N/A\",\n  \"Cantidad Palabras\": 0,\n  \"Justificación\": `Archivo de audio corrupto o vacío. Tamaño: ${fileSize} bytes`,\n  \n  // Metadatos de control actualizados\n  processingStatus: \"error_144_bytes\",\n  processingEndTime: new Date().toISOString(),\n  errorDetails: {\n    type: \"corrupted_file\",\n    fileSize: fileSize,\n    expectedMinSize: \"Más de 144 bytes\"\n  },\n  branch: 0\n};\n\nreturn [{ json: updatedData }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        100
+      ],
+      "id": "bf231348-3a7c-46ee-babd-984c0045322b",
+      "name": "Llamadas corruptas"
+    },
+    {
+      "parameters": {
+        "jsCode": "const transcriptionText = $input.first().json.text;\nconst baseData = $('Iterar sobre Urls').first().json;\nconst fileSize = $('Descargar la Grabación').first().json.headers['content-length'];\nvar branchOption = 1;\n\n// === UMBRALES EMPÍRICOS ===\nconst THRESHOLDS = {\n  MIN_DURATION_SEC: 25,\n  MIN_WORDS: 31,\n  MIN_CHARACTERS: 155,\n  MIN_SENTENCES: 3,\n  MIN_LEXICAL_DIVERSITY: 0.4\n};\n\n// === CÁLCULO DE MÉTRICAS ===\nconst words = transcriptionText.toLowerCase().trim().split(/\\s+/).filter(word => word.length > 0);\nconst wordCount = words.length;\nconst charCount = transcriptionText.length;\nconst sentenceCount = transcriptionText.split(/[.!?]+/).filter(s => s.trim().length > 0).length;\n\n// Diversidad léxica\nconst uniqueWords = new Set(words);\nconst lexicalDiversity = wordCount > 0 ? uniqueWords.size / wordCount : 0;\n\n// Duración estimada (125 WPM para español con pausas)\nconst estimatedDurationSec = (wordCount / 125) * 60;\n\n// === EVALUACIÓN DE CALIDAD ===\nconst qualityChecks = {\n  hasMinDuration: estimatedDurationSec >= THRESHOLDS.MIN_DURATION_SEC,\n  hasMinWords: wordCount >= THRESHOLDS.MIN_WORDS,\n  hasMinChars: charCount >= THRESHOLDS.MIN_CHARACTERS,\n  hasMinSentences: sentenceCount >= THRESHOLDS.MIN_SENTENCES,\n  hasMinDiversity: lexicalDiversity >= THRESHOLDS.MIN_LEXICAL_DIVERSITY\n};\n\n// Criterios cumplidos (debe cumplir al menos 4 de 5)\nconst criteriaMetCount = Object.values(qualityChecks).filter(check => check).length;\nconst isValidCall = criteriaMetCount >= 4;\n\n// === CONDICIONALES INTERNOS ===\nlet estadoLlamada = \"\";\nlet justificacion = \"\";\nlet indicadorViabilidad = 0; // 0 = No viable, 1 = Viable\n\nif (isValidCall) {\n  // CASO: Llamada válida\n  estadoLlamada = \"Válida - Lista para análisis IA\";\n  justificacion = \"\";\n  indicadorViabilidad = 1;\n  branchOption = 1;\n} else {\n  // CASO: Llamada insuficiente\n  estadoLlamada = \"Rechazada - Duración/contenido insuficiente\";\n  branchOption = 2;\n  // Generar justificación detallada\n  const failedCriteria = [];\n  if (!qualityChecks.hasMinDuration) failedCriteria.push(`Duración insuficiente: ~${Math.round(estimatedDurationSec)}s (mín: ${THRESHOLDS.MIN_DURATION_SEC}s)`);\n  if (!qualityChecks.hasMinWords) failedCriteria.push(`Pocas palabras: ${wordCount} (mín: ${THRESHOLDS.MIN_WORDS})`);\n  if (!qualityChecks.hasMinChars) failedCriteria.push(`Pocos caracteres: ${charCount} (mín: ${THRESHOLDS.MIN_CHARACTERS})`);\n  if (!qualityChecks.hasMinSentences) failedCriteria.push(`Pocas oraciones: ${sentenceCount} (mín: ${THRESHOLDS.MIN_SENTENCES})`);\n  if (!qualityChecks.hasMinDiversity) failedCriteria.push(`Baja diversidad léxica: ${Math.round(lexicalDiversity*100)}% (mín: ${Math.round(THRESHOLDS.MIN_LEXICAL_DIVERSITY*100)}%)`);\n  \n  justificacion = `Criterios no cumplidos (${criteriaMetCount}/${Object.keys(qualityChecks).length}): ${failedCriteria.join('; ')}`;\n  indicadorViabilidad = 0;\n}\n\n// Calcular duración estimada del archivo\nconst durationEstimate = Math.round(parseInt(fileSize) / 1000);\n\n// === ESTRUCTURA FINAL ===\nconst updatedData = {\n  ...baseData,\n  \n  // Datos de transcripción\n  text: transcriptionText,\n  \n  // === NUEVO CAMPO INDICADOR ===\n  viableParaAnalisis: indicadorViabilidad, // 0 o 1\n  \n  // Campos actualizados\n  \"Estado Llamada\": estadoLlamada,\n  \"Duración Estimada\": `${durationEstimate}s aprox`,\n  \"Cantidad Palabras\": wordCount,\n  \"Justificación\": justificacion,\n  \n  // Datos para control de flujo\n  isValidCall: isValidCall,\n  shouldProcess: isValidCall,\n  processingStatus: isValidCall ? \"transcribed_valid\" : \"transcribed_invalid\",\n  \n  // Métricas detalladas\n  qualityMetrics: {\n    wordCount: wordCount,\n    charCount: charCount,\n    sentenceCount: sentenceCount,\n    lexicalDiversity: Math.round(lexicalDiversity * 1000) / 1000,\n    estimatedDurationSec: Math.round(estimatedDurationSec),\n    criteriaMetCount: criteriaMetCount,\n    totalCriteria: Object.keys(qualityChecks).length,\n    qualityScore: Math.round((criteriaMetCount / Object.keys(qualityChecks).length) * 100),\n    individualChecks: qualityChecks\n  },\n  \n  // Metadatos finales\n  processingEndTime: new Date().toISOString(),\n  processingDuration: Date.now() - new Date(baseData.processingStartTime).getTime(),\n  branch: branchOption\n};\n\nif (indicadorViabilidad === 0) {\n  console.log(`Razón: ${justificacion}`);\n}\n\nreturn [{ json: updatedData }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        60,
+        320
+      ],
+      "id": "f45291b4-199a-4880-91f5-dd97498e287a",
+      "name": "Verificar Umbrales"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Nodo Code mejorado para llamadas con errores\nconst baseData = $('Iterar sobre Urls').first().json;\nvar fileSize = $input.first().json.error.status;\n\nconst updatedData = {\n  ...baseData,\n  \"Estado Llamada\": \"Error - Enlace corrupto\",\n  \"Duración Estimada\": \"N/A\",\n  \"Cantidad Palabras\": 0,\n  \"Justificación\": `Archivo de audio corrupto o vacío. Tamaño: ${fileSize} bytes`,\n  \n  // Metadatos de control actualizados\n  processingStatus: \"error_bytes\",\n  processingEndTime: new Date().toISOString(),\n  errorDetails: {\n    type: \"corrupted_file\",\n    fileSize: fileSize,\n    expectedMinSize: \"Más de 144 bytes\"\n  },\n  branch: 0\n};\n\nreturn [{ json: updatedData }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -180,
+        -120
+      ],
+      "id": "0236682e-c17f-4306-b57c-94125e9597f0",
+      "name": "Llamadas corruptas1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a56a9745-de28-48de-a539-17655ebff250",
+              "name": "output.sentimiento_general",
+              "value": "={{ $json['Sentimiento General'] }}",
+              "type": "string"
+            },
+            {
+              "id": "631ac706-3829-462a-a653-878988c7bc76",
+              "name": "=output.emocion_candidato",
+              "value": "={{ $json['Emoción Candidato'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f085bdbd-0477-4f0c-bdcc-010a5096660b",
+              "name": "output.emocion_agente",
+              "value": "={{ $json['Emoción Agente'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7309c3cb-329f-49e9-bce5-559d783849c4",
+              "name": "output.nivel_interes_candidato",
+              "value": "={{ $json['Nivel Interés Candidato'] }}",
+              "type": "string"
+            },
+            {
+              "id": "fc900604-4d7a-416f-95aa-6f9289d56dc2",
+              "name": "output.justificacion",
+              "value": "={{ $json['Justificación'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6b655147-4235-493a-ad3b-7de39b536a05",
+              "name": "output.areas_de_mejora",
+              "value": "={{ $json['Áreas de Mejora'] }}",
+              "type": "string"
+            },
+            {
+              "id": "16e1baac-2a97-4bf0-85b2-fc4522de38f4",
+              "name": "output.tematicas_detectadas",
+              "value": "={{ $json['Temáticas Detectadas'] }}",
+              "type": "array"
+            },
+            {
+              "id": "ff41c1d5-2852-4081-a6af-85af5ebb31eb",
+              "name": "output.intencion_prospecto",
+              "value": "={{ $json['Intención Prospecto'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6231a2c6-9313-46aa-9597-a546f4a062b4",
+              "name": "output.palabras_clave",
+              "value": "={{ $json['Palabras Clave'] }}",
+              "type": "array"
+            },
+            {
+              "id": "f163cae0-818f-447e-8630-3758958ad0e7",
+              "name": "output.preguntas_realizadas",
+              "value": "={{ $json['Preguntas Realizadas'] }}",
+              "type": "array"
+            },
+            {
+              "id": "74a4bd5d-b94e-4bae-be54-fc561c94ae3e",
+              "name": "output.id_llamada",
+              "value": "={{ $json['ID Llamada'] }}",
+              "type": "string"
+            },
+            {
+              "id": "55ae966d-ad79-4b00-b585-c3d72324a045",
+              "name": "output.url_original",
+              "value": "={{ $json['URL Original'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3268f33f-b28a-41f3-b230-0180cca579f2",
+              "name": "output.fecha_procesamiento",
+              "value": "={{ $json['Fecha Procesamiento'] }}",
+              "type": "string"
+            },
+            {
+              "id": "27429be1-a5b5-49eb-99e0-f7f772e5b944",
+              "name": "output.estado_llamada",
+              "value": "={{ $json['Estado Llamada'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        -200
+      ],
+      "id": "1a546da8-ae4b-47c9-9ea7-10adb45dea1d",
+      "name": "Case Error1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s",
+          "mode": "list",
+          "cachedResultName": "LlamadasAnalizadas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KO5gVD2_01whnWswgYFcttSLuCD_2Wy2nzKMV-GSj8s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Id Llamada": "={{ $json.output.id_llamada }}",
+            "Url": "={{ $json.output.url_original }}",
+            "Fecha Procesamiento": "={{ $json.output.fecha_procesamiento }}",
+            "Estado": "={{ $json.output.estado_llamada }}",
+            "Sentimiento General": "={{ $json.output.sentimiento_general }}",
+            "Emoción Candidato": "={{ $json.output.emocion_candidato }}",
+            "Emoción Agente": "={{ $json.output.emocion_agente }}",
+            "Interés del Candidato": "={{ $json.output.nivel_interes_candidato }}",
+            "Justificación": "={{ $json.output.justificacion }}",
+            "Áreas de Mejora": "={{ $json.output.areas_de_mejora }}",
+            "Temáticas Detectadas": "={{ $json.output.tematicas_detectadas }}",
+            "Intención del Prospecto": "={{ $json.output.intencion_prospecto }}",
+            "Palabras Clave": "={{ $json.output.palabras_clave }}",
+            "Preguntas Realizadas": "={{ $json.output.preguntas_realizadas }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Id Llamada",
+              "displayName": "Id Llamada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha Procesamiento",
+              "displayName": "Fecha Procesamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sentimiento General",
+              "displayName": "Sentimiento General",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Candidato",
+              "displayName": "Emoción Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Emoción Agente",
+              "displayName": "Emoción Agente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Interés del Candidato",
+              "displayName": "Interés del Candidato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Justificación",
+              "displayName": "Justificación",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Áreas de Mejora",
+              "displayName": "Áreas de Mejora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Temáticas Detectadas",
+              "displayName": "Temáticas Detectadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Intención del Prospecto",
+              "displayName": "Intención del Prospecto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Palabras Clave",
+              "displayName": "Palabras Clave",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Preguntas Realizadas",
+              "displayName": "Preguntas Realizadas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        160,
+        -420
+      ],
+      "id": "41266243-2892-4ae4-b043-b38a244b69d8",
+      "name": "Guardar Análisis con Error1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZKe4X0tHwZYgYiIK",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "binaryPropertyName": "={{ $json.index }}",
+        "options": {
+          "fileName": "contador"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        540,
+        -300
+      ],
+      "id": "d97ce8d4-9b46-4b72-bf4a-bcfd6482687c",
+      "name": "Convertir Contador Binario3"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "/data/Llamada/contador.json",
+        "dataPropertyName": "={{ $('Variable Contador3').item.json.index }}",
+        "options": {
+          "append": false
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        720,
+        -300
+      ],
+      "id": "44c97ccf-90ed-4cf8-b965-1ac4f53b82e3",
+      "name": "Read/Write Files from Disk3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a6dc44b5-6a76-45a1-a0dc-b2670b22bfc7",
+              "name": "index",
+              "value": "={{ $('Llamadas corruptas1').item.json.nextIndex }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        340,
+        -420
+      ],
+      "id": "acf1ca33-70f2-4566-8a7f-cd8f4abe0681",
+      "name": "Variable Contador3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Leer Llamadas Reales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer Llamadas Reales": {
+      "main": [
+        [
+          {
+            "node": "Traducir Archivo Grabaciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Temáticas e Intenciones",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Temáticas e Intenciones",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Temáticas e Intenciones",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Acciones de mejora",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Acciones de mejora",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Acciones de mejora",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Clasificador y Analizador",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "Clasificador y Analizador",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Clasificador y Analizador",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clasificador y Analizador": {
+      "main": [
+        [
+          {
+            "node": "Acciones de mejora",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Temáticas e Intenciones": {
+      "main": [
+        [
+          {
+            "node": "Case valid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Acciones de mejora": {
+      "main": [
+        [
+          {
+            "node": "Temáticas e Intenciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Llamadas corruptas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Transcripción",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Clasificador y Analizador",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Case Invalid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Case Error": {
+      "main": [
+        [
+          {
+            "node": "Guardar Análisis con Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Case valid": {
+      "main": [
+        [
+          {
+            "node": "Guardar Análisis Válido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Case Invalid": {
+      "main": [
+        [
+          {
+            "node": "Guardar Análisis Inválido1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Iterar sobre Urls": {
+      "main": [
+        [
+          {
+            "node": "Descargar la Grabación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer Contador Persistente": {
+      "main": [
+        [
+          {
+            "node": "Convertir Contador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convertir Contador": {
+      "main": [
+        [
+          {
+            "node": "Iterar sobre Urls",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Análisis con Error": {
+      "main": [
+        [
+          {
+            "node": "Variable Contador2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Análisis Válido": {
+      "main": [
+        [
+          {
+            "node": "Variable Contador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convertir Contador Binario": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Análisis Inválido1": {
+      "main": [
+        [
+          {
+            "node": "Variable Contador1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convertir Contador Binario2": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variable Contador": {
+      "main": [
+        [
+          {
+            "node": "Convertir Contador Binario1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convertir Contador Binario1": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variable Contador1": {
+      "main": [
+        [
+          {
+            "node": "Convertir Contador Binario2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variable Contador2": {
+      "main": [
+        [
+          {
+            "node": "Convertir Contador Binario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descargar la Grabación": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Llamadas corruptas1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcripción": {
+      "main": [
+        [
+          {
+            "node": "Verificar Umbrales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Traducir Archivo Grabaciones": {
+      "main": [
+        [
+          {
+            "node": "Leer Contador Persistente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Llamadas corruptas": {
+      "main": [
+        [
+          {
+            "node": "Case Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Umbrales": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Case Error1": {
+      "main": [
+        [
+          {
+            "node": "Guardar Análisis con Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Análisis con Error1": {
+      "main": [
+        [
+          {
+            "node": "Variable Contador3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convertir Contador Binario3": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variable Contador3": {
+      "main": [
+        [
+          {
+            "node": "Convertir Contador Binario3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Llamadas corruptas1": {
+      "main": [
+        [
+          {
+            "node": "Case Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "saveExecutionProgress": true
+  },
+  "versionId": "401915c9-1cec-4241-8cca-7a498c1b0df9",
+  "meta": {
+    "instanceId": "11523324f3443d04b1a15ab77f4fc02142abd3ffef4bdb12e483482f71561ad1"
+  },
+  "id": "mDyd1Y3Uw6Z6riQS",
+  "tags": []
+}
